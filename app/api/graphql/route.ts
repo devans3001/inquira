@@ -11,6 +11,7 @@ const corsHeaders = {
 export async function POST(request: NextRequest) {
   const { query, variables } = await request.json();
 
+  // console.log("GraphQL Request:", { query, variables });
   try {
     let result;
     if (query.trim().startsWith("mutation")) {
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const data = result.data || {};
+    const data = result.data;
     console.log("GraphQL Response:", data);
 
     return NextResponse.json(
