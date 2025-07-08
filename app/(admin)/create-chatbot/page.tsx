@@ -7,7 +7,6 @@ import React from 'react'
 
 function CreateChatbot() {
 
-  // 05:42:09
 
   return (
     <div className='flex flex-col items-center justify-center md:flex-row bg-white p-10 rounded-md m-10 md:space-x-10'>
@@ -27,6 +26,10 @@ function CreateChatbot() {
             Create Chatbot
           </Button>
         </form>
+
+        <p className="text-gray-300 mt-5">
+          Example: Customer Supprt Chatbot
+        </p>
       </div>
     </div>
   )
