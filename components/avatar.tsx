@@ -2,7 +2,7 @@ import Image from "next/image";
 import { createAvatar } from "@dicebear/core";
 import { shapes } from "@dicebear/collection";
 
-function Avatar({ seed, className }: { seed: string; className?: string }) {
+function Avatar({ seed, className }: { seed?: string; className?: string }) {
   const avatar = createAvatar(shapes, {
     seed,
   });

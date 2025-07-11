@@ -29,12 +29,10 @@ function CreateChatbot() {
     try {
 
       const data = await createChatbot()
-      console.log("page data",data)
       setName("")
       router.push(`/edit-chatbot/${data.data.insertChatbots.id}`)
     } catch (err) {
       console.error("Error creating chatbot:", err);
-      console.log("mutation error",error)
     }
   };
 
