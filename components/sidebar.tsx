@@ -11,7 +11,7 @@ function Sidebar() {
       icon: BotMessageSquare
     },
     {
-      href: "/view-chatbot",
+      href: "/view-chatbots",
       top: "View",
       bottom: "Chatbot",
       icon: PencilLine

@@ -2,7 +2,15 @@ import Image from "next/image";
 import { createAvatar } from "@dicebear/core";
 import { shapes } from "@dicebear/collection";
 
-function Avatar({ seed, className }: { seed?: string; className?: string }) {
+function Avatar({
+  seed,
+  className,
+  size,
+}: {
+  seed?: string;
+  className?: string;
+  size?: { w?: number; h?: number };
+}) {
   const avatar = createAvatar(shapes, {
     seed,
   });
@@ -16,10 +24,10 @@ function Avatar({ seed, className }: { seed?: string; className?: string }) {
   return (
     <Image
       src={dataUrl}
-      className={className}
+      className={`rounded-full ${className}`}
       alt="User avatar"
-      width={80}
-      height={80}
+      width={size?.w || 80}
+      height={size?.h || 80}
     />
   );
 }
