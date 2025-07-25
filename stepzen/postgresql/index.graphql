@@ -156,7 +156,7 @@ type Query {
       configuration: "postgresql_config"
     )
 
-  chatbotsByUser(clerk_user_id: String!): Chatbots
+  chatbotsByUser(clerk_user_id: String!): [Chatbots]
     @dbquery(
       type: "postgresql"
       schema: "public"

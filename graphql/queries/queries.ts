@@ -1,7 +1,24 @@
 import { gql } from "@apollo/client";
 
-
 // alwaya make sure to check the types of the query and variables
+
+export const GET_USER_CHATBOTS = gql`
+  query GetUserChatbots($userId: String!) {
+    chatbotsByUser(clerk_user_id: $userId) {
+      id
+      name
+      chat_sessions {
+        id
+        created_at
+        guests {
+          name
+          email
+        }
+      }
+      created_at
+    }
+  }
+`;
 
 export const GET_CHATBOT_BY_USER = gql`
   query GetChatbotsByUser($clerk_user_id: String!) {
@@ -27,7 +44,6 @@ export const GET_CHATBOT_BY_USER = gql`
     }
   }
 `;
-
 
 export const GET_CHATBOT_BY_ID = gql`
   query GetChatbotById($id: Int!) {
