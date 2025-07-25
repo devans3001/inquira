@@ -14,8 +14,9 @@ type GetUserChatbotsResponse = {
 async function ReviewSessions() {
   const { userId } = await auth();
   if (!userId) return;
+
   const {
-    data: { chatbotsByUser },
+    data: { chatbotsByUser },error
   } = await serverClient.query<
     GetUserChatbotsResponse,
     GetUserChatbotsVariable
@@ -25,6 +26,8 @@ async function ReviewSessions() {
       userId,
     },
   });
+
+  if(error) return <p>some error</p>
 
   //   console.table(chatbotsByUser);
 

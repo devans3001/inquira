@@ -20,6 +20,28 @@ export const GET_USER_CHATBOTS = gql`
   }
 `;
 
+export const GET_CHAT_SESSION_MESSAGES = gql`
+ query chat_sessionsList($id: Int!) {
+  chat_sessions(id: $id) {
+    created_at
+    id
+    messages {
+      content
+      created_at
+      id
+      sender
+    }
+    guests {
+      name
+      email
+    }
+    chatbots {
+      name
+    }
+  }
+}
+`;
+
 export const GET_CHATBOT_BY_USER = gql`
   query GetChatbotsByUser($clerk_user_id: String!) {
     chatbotsByUser(clerk_user_id: $clerk_user_id) {
