@@ -43,6 +43,25 @@ export const UPDATE_CHATBOT = gql`
   }
 `;
 
+export const INSERT_MESSAGE = gql`
+  mutation InsertMessage(
+    $chat_session_id: Int!
+    $content: String!
+    $sender: String!
+  ) {
+    insertMessages(
+      content: $content
+      sender: $sender
+      chat_session_id: $chat_session_id
+    ) {
+      content
+      created_at
+      id
+      sender
+    }
+  }
+`;
+
 export const ADD_CHARACTERISTIC = gql`
   mutation AddCharacteristic(
     $content: String!

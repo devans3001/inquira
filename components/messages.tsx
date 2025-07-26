@@ -46,7 +46,7 @@ function Messages({ messages, name }: { messages: Message[]; name: string }) {
               )}
             </div>
 
-            <p
+            <div
               className={`chat-bubble  ${
                 isSender
                   ? "chat-bubble-primary bg-[#4d7df8] text-white"
@@ -110,7 +110,7 @@ function Messages({ messages, name }: { messages: Message[]; name: string }) {
               >
                 {msg.content}
               </Markdown>
-            </p>
+            </div>
           </div>
         );
       })}

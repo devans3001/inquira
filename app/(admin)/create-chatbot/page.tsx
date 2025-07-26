@@ -12,10 +12,10 @@ import { useState } from "react";
 function CreateChatbot() {
   const { user } = useUser();
 
-  const [name, setName] = useState("test");
+  const [name, setName] = useState("");
   const router = useRouter()
 
-  const [createChatbot, { data, loading,error }] = useMutation(CHAT_BOT, {
+  const [createChatbot, {  loading }] = useMutation(CHAT_BOT, {
     variables: {
       clerk_user_id: user?.id,
       name,

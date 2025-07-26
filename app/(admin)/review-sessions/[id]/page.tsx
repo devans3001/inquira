@@ -16,7 +16,7 @@ async function ReviewSession({ params }: { params: { id: string } }) {
   const {
     data: {
       chat_sessions: {
-        id: chatSessionId,
+        // id: chatSessionId,
         created_at,
         messages,
         guests: { name: guestName, email },
