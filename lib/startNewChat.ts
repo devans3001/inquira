@@ -47,11 +47,11 @@ export async function startNewChat(
       variables: {
         chat_session_id: chatSessionId,
         sender: "ai",
-        content: `Welcome ${guestName}`,
+        content: `Welcome ${guestName} \n How can I assist you today?😃`,
       },
     });
 
-    console.log("New chat created successfully");
+    // console.log("New chat created successfully");
 
     return chatSessionId;
     

@@ -11,7 +11,7 @@ type GetChatSessionMessageVariable = {
   id: number;
 };
 async function ReviewSession({ params }: { params: { id: string } }) {
-  const { id } = await params;
+  const { id } = params;
 
   const {
     data: {

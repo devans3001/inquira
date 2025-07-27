@@ -4,8 +4,14 @@ import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/type";
 import { useQuery } from "@apollo/client";
 import EditHeader from "./edit-header";
 import EditSection from "./edit-section";
+import { useParams } from "next/navigation";
 
-function EditChatbot({ params: { id } }: { params: { id: string } }) {
+
+
+function EditChatbot() {
+
+const { id } = useParams() as { id: string };
+
   const { data, loading } = useQuery<
     GetChatbotByIdResponse,
     GetChatbotByIdVariables

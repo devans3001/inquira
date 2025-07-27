@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ApolloProviderWrapper from "@/components/ApolloProvider";
 import { Toaster } from "sonner";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +20,7 @@ export default function RootLayout({
 
     <ClerkProvider>
       <html lang="en">
-        <body className={`min-h-screen flex`}>{children}</body>
+        <body className={`min-h-screen flex`}>{children} <Analytics /></body>
       </html>
         <Toaster/>
     </ClerkProvider>

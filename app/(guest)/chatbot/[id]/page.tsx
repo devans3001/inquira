@@ -35,8 +35,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useDebounce } from "@/hooks/useDebounce";
 
-interface MessagesByChatSessionIdResponse {
+export interface MessagesByChatSessionIdResponse {
   chat_sessions: ChatSession;
 }
 
@@ -53,6 +54,29 @@ function ChatbotPage() {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const debounceEmail = useDebounce(email,800)
+
+const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setEmail(value);
+};
+
+useEffect(() => {
+  // only validate if something was typed
+  if (debounceEmail) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
+    const isValid = emailRegex.test(debounceEmail);
+
+    setIsValidEmail(isValid);
+
+    if (!isValid) {
+      toast.error("Please enter a valid Gmail or Yahoo email");
+    }
+  }
+}, [debounceEmail]);
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,8 +90,8 @@ function ChatbotPage() {
   );
 
   const {
-    loading: loadingQuery,
-    error,
+    // loading: loadingQuery,
+    // error,
     data,
   } = useQuery<MessagesByChatSessionIdResponse>(
     GET_MESSAGES_BY_CHATSESSION_ID,
@@ -102,9 +126,51 @@ function ChatbotPage() {
 
     if (!message.trim()) return;
 
+    // Optimistically update the UI with the user's message
+    const userMessage: Message = {
+      id: Date.now(),
+      content: message,
+      created_at: new Date().toISOString(),
+      chat_session_id: chatId,
+      sender: "user",
+    };
+
+    // And show loading state for AI response
+    const loadingMessage: Message = {
+      id: Date.now() + 1,
+      content: "Thinking...",
+      created_at: new Date().toISOString(),
+      chat_session_id: chatId,
+      sender: "ai",
+    };
+
+    setMessages((prevMsg) => [...prevMsg, userMessage, loadingMessage]);
+
     try {
-      // Your submission logic here
-      // Example: await api.submitForm(values);
+      const response = await fetch("/api/send-message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          chat_session_id: chatId,
+          chatbot_id: id,
+          content: message,
+        }),
+      });
+
+      const result = await response.json();
+
+      setMessages((prevMsg) =>
+        prevMsg.map((msg) =>
+          msg.id === loadingMessage.id
+            ? { ...msg, content: result.content, id: result.id }
+            : msg
+        )
+      );
+
+      return result;
     } catch (error) {
       console.error("Submission failed:", error);
     } finally {
@@ -120,7 +186,6 @@ function ChatbotPage() {
     setChatId(chatAwaitId);
     setLoading(false);
     setIsOpen(false);
-    toast.success("Done");
   }
 
   return (
@@ -155,15 +220,15 @@ function ChatbotPage() {
                 <Input
                   id="email"
                   value={email}
-                  className="col-span-3"
+                  className={`col-span-3 ${!isValidEmail && "border-destructive"}`}
                   placeholder="john@doe.com"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                 />
               </div>
             </div>
 
             <DialogFooter>
-              <Button disabled={loading || !name || !email} type="submit">
+              <Button disabled={loading || !name || !email || !isValidEmail} type="submit">
                 {!loading ? "Continue" : "loading..."}
               </Button>
             </DialogFooter>
