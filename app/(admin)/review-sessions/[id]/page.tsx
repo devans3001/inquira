@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // 🚀 Force dynamic rendering since data is fetched on each request
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ import React from "react";
 type GetChatSessionMessageVariable = {
   id: number;
 };
-async function ReviewSession({ params }: { params: { id: string } }) {
+async function ReviewSession({ params }:any) {
   const { id } = params;
 
   const {
